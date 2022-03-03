@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+	<bean id="logAop" class="aopTest.LogAop" />
+	
+	<aop:config>
+		<aop:aspect id="logger" ref="logAop"> <!-- id는 자유 ref는 위의 bean 참조 -->
+			<aop:pointcut expression="within(aopTest.Target)" id="publicM"/> 
+			<!-- within() 공통의 대상을 패키지 별로 설정할 수 있다 -->
+			<!-- 모튼 클래스를 하려면 within(aopTest.*) -->
+			
+			<!-- <aop:around method="loggerAop" pointcut-ref="publicM"/> --> <!-- 전과 후에 적용을 시키겠다. -->
+		 	<!-- <aop:after method="loggerAop3" pointcut-ref="publicM"/> -->
+		 	<aop:before method="loggerAop2" pointcut-ref="publicM"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<context:component-scan base-package="aopTest" />
+</beans>
