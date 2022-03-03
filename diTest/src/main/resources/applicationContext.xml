@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 주입할 객체 생성 -->
+	<!-- id는 객체의 이름 / class는 패키지 이름.class파일 이름 -->
+	<bean id="b" class="diTest.B">
+		<!-- name은 field의 이름과 동일 해야 함 -->
+		<property name="field" value="xml을 이용한 b 생성"/>
+	</bean>
+	
+	<!-- 주입 받을 객체 생성 -->
+	<bean id="a" class="diTest.A">
+		<property name="field1" value="xml을 이용한 a 생성" />
+		<property name="field2">
+			<!-- 주입 시작 -->
+			<ref bean="b" /> <!-- setter 주입 정보 제공 -->
+		</property>
+	</bean>
+	
+	<bean id="student1" class="diTest.Student">
+		<property name="name" value="홍길동" />
+		<property name="age" value="20" />
+	</bean>
+	<bean id="student2" class="diTest.Student">
+		<property name="name" value="홍동" />
+		<property name="age" value="20" />
+	</bean>
+	<bean id="student3" class="diTest.Student">
+		<property name="name" value="홍길" />
+		<property name="age" value="20" />
+	</bean>
+	
+	<bean id="school" class="diTest.School">
+		<property name="name" value="이젠학교" />
+		<property name="student">
+			<!-- 배열로 받기 -->
+			<list>
+				<ref bean="student1" />
+				<ref bean="student2" />
+				<ref bean="student3" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 생성자를 이용한 의존 주입 -->
+	<!-- field값이 없으므로 바로 닫음 -->
+	<bean id="mainboard" class="diTest.MainBoard" />
+	<bean id="ram" class="diTest.Ram" />
+	
+	<bean id="computer" class="diTest.Computer">
+		<constructor-arg>
+			<ref bean="mainboard" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="ram" />
+		</constructor-arg>
+	</bean>
+	
+</beans>
