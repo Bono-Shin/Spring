@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 					<!-- mapper 이름 -->
+<mapper namespace="edu.study.mapper.boardMapper">
+									<!-- 마이바티스에서 가져온 클래스 -->
+     <select id="listBoard" resultType="boardVO">
+         SELECT bidx
+        	 , subject
+        	 , content
+        	 , writer
+          FROM board
+          WHERE 1=1 <!-- 무시되는 where절 -->
+    </select>
+    
+    <select id="detailBoard" resultType="boardVO" parameterType="int">
+    	SELECT bidx
+        	 , subject
+        	 , content
+        	 , writer
+          FROM board
+          WHERE bidx=#{bidx} <!-- 마이바티스에서 변수는 #{}으로 사용 -->
+    </select>
+    
+      <select id="modifyBoard" resultType="boardVO" parameterType="int">
+         SELECT bidx
+        	 , subject
+        	 , content
+        	 , writer
+          FROM board
+          WHERE bidx=#{bidx}
+    </select>
+</mapper>
