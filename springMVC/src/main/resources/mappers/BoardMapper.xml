@@ -5,14 +5,27 @@
  
  					<!-- mapper 이름 -->
 <mapper namespace="edu.study.mapper.boardMapper">
-									<!-- 마이바티스에서 가져온 클래스 -->
-     <select id="listBoard" resultType="boardVO">
+									<!-- 마이바티스에서 가져온 클래스 --> <!-- 마이바티스 config에서 별칭 등록 후 사용 -->
+     <select id="listBoard" resultType="boardVO" parameterType="searchVO">
+     								<!-- 실행 결과를 담으려면 resultType 필요 -->
          SELECT bidx
         	 , subject
         	 , content
         	 , writer
           FROM board
-          WHERE 1=1 <!-- 무시되는 where절 -->
+          WHERE DELYN != 'y'
+         <!-- WHERE 1=1 무시되는 where절 -->
+         <!-- if절이나 for문 사용 가능 -->
+         <!-- test로 조건 받음 -->		<!-- &&는 사용 불가 -->
+         <if test="searchType != null and searchType.equals('subject')">
+         					<!-- ||는 문자열 이어붙이기 +와 같음 -->
+         	and subject like '%'||#{searchValue}||'%'
+         </if>
+         <!-- else가 없고 if 절로 사용 -->
+         <if test="searchType != null and searchType.equals('writer')">
+         	and writer like '%'||#{searchValue}||'%'
+         </if>
+         ORDER BY bidx DESC
     </select>
     
     <select id="detailBoard" resultType="boardVO" parameterType="int">
@@ -32,4 +45,33 @@
           FROM board
           WHERE bidx=#{bidx}
     </select>
+    
+    <update id="updateBoard" parameterType="BoardVO">
+    	UPDATE board
+    		SET	subject = #{subject}
+    			,content = #{content}
+    		WHERE bidx = #{bidx}
+    </update>
+    
+    <update id="deleteBoard" parameterType="int">
+    	UPDATE board
+   			SET DELYN = 'y'
+   			WHERE bidx = #{bidx}
+    </update>
+    
+    <insert id="insertBoard" parameterType="BoardVO">
+    <!-- 마이바티스로 쿼리 두번 날리는 방법 -->
+    <!-- cdata 안에 오는 것은 문자열이라는 뜻 태그 사용 불가-->
+    <!-- 쿼리문에 특수문자나 부등호를 사용할 때 태그로 인식되지 않게 하기 위해서도 사용한다. -->
+    <![CDATA[
+    	INSERT INTO 
+    		board(bidx,subject,content,writer,midx)
+    		values(bidx_seq.nextval,#{subject},#{content},'spring',27)
+    ]]>
+    <!-- 두번째로 실행할 쿼리 순서는 order로 정할 수 있다 selectKey는 한번만 사용 가능 -->
+    	<!-- 쿼리의 결과로 반환되는 타입 --><!-- vo가 가진 필드명 --><!-- 위 쿼리 실행 전에 할지 후에 할지 결정 -->
+    <selectKey resultType="integer" keyProperty="bidx" order="AFTER">
+    	SELECT Max(bidx) FROM board
+    </selectKey>
+    </insert>
 </mapper>

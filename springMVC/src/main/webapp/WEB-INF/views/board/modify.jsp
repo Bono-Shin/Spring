@@ -8,13 +8,16 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<form action="modify.do" method="post">
 	<table border="1">
+		<input type="hidden" name="bidx" value="${vo.bidx }">
 		<thead>
 			<tr>
 				<th>번호</th>
 				<td>${vo.bidx }</td>
 				<th>제목</th>
-				<td><input type="text" value="${vo.subject }"></td>
+				<td><input type="text" name="subject" value="${vo.subject }"></td>
+										<!-- name은 vo 필드네임과 같게 한다 -->
 				<th>작성자</th>
 				<td>${vo.writer }</td>
 			</tr>
@@ -22,11 +25,11 @@
 		<tbody>
 			<tr>
 				<th>내용</th>
-				<td colspan="5"><textarea>${vo.content }</textarea></td>
+				<td colspan="5"><textarea name="content">${vo.content }</textarea></td>
 			</tr>
 		</tbody>
 	</table>
-	<button>취소</button>
 	<button>저장</button>
+	</form>
 </body>
 </html>

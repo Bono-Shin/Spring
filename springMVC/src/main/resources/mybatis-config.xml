@@ -6,6 +6,7 @@
 	<typeAliases>
 						<!-- class 명                    별칭 -->
         <typeAlias type="edu.study.vo.BoardVO" alias="boardVO"/>
+        <typeAlias type="edu.study.vo.SearchVO" alias="searchVO"/>
     </typeAliases>
 
 </configuration>

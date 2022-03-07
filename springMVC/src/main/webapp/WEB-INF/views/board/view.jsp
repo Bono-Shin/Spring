@@ -27,5 +27,16 @@
 		</tbody>
 	</table>
 	<button onclick="location.href='modify.do?bidx=${vo.bidx}'">수정</button>
+	<form method="post">
+		<button onclick="del(); return false;">삭제</button>
+		<input type="hidden" name="bidx" value="${vo.bidx }">
+	</form>
+	<script>
+		function del(){
+			var form = document.getElementsByTagName("form")[0];
+			form.setAttribute("action","delete.do");
+			form.submit();
+		}
+	</script>
 </body>
 </html>

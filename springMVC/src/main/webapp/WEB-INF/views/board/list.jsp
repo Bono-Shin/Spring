@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="<%=request.getContextPath() %>/css/header.css" rel="stylesheet" />
 </head>
 <body>
 	<h2>게시글 목록</h2>
@@ -15,6 +16,13 @@
 	${list.size() }
 	
 	<br>
+	<form action="list.do" method="get">
+		<select name="searchType">
+			<option value="subject">글제목</option>
+			<option value="writer">작성자</option>
+		</select>
+		<input type="text" name="searchValue">
+	</form>
 	<table>
 		<thead border="1">
 			<tr>
@@ -33,6 +41,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<button onclick="location.href='insert.do'">등록</button>
 	
 </body>
 </html>
